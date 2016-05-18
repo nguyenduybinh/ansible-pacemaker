@@ -1,0 +1,29 @@
+---
+#set transport_protocol: udpu when want to use unicast for cluster
+#transport_protocol: udpu
+#path to file to write corosync log
+logpath: /var/log/corosync/corosync.log
+#path to corosync configuration file
+config_path: /etc/corosync/corosync.conf
+#network address that corosync bind to
+bindnetaddress: 192.168.98.0
+#multicast ip address
+mcastaddress: 226.94.1.1
+#port using for multicast, defaults 5405
+mcast_port: 5405
+#name of the cluster
+cluster_name: test
+#this is to set up the value of expected_votes in quorum directive
+number_nodes: 2
+#name of running service
+coro_service: corosync
+pcmk_service: pacemaker
+#name of package for install
+pkg: 
+ - pacemaker 
+#the node list using in udpu mode
+node_info:
+ - ip:
+     - 192.168.98.8
+     - 192.168.98.11
+

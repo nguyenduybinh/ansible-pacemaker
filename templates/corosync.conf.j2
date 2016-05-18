@@ -1,0 +1,66 @@
+# Please read the corosync.conf.5 manual page
+# Please read the Corosync.conf.5 manual page
+compatibility: whitetank
+
+totem {
+        version: 2
+
+        # How long before declaring a token lost (ms)
+        token:          5000
+
+        # How many token retransmits before forming a new configuration
+        token_retransmits_before_loss_const: 10
+
+        # How long to wait for join messages in the membership protocol (ms)
+        join:           1000
+
+        # How long to wait for consensus to be achieved before starting a new
+        # round of membership configuration (ms)
+        consensus:      6000
+
+        # Turn off the virtual synchrony filter
+        vsftype:        none
+
+        # Number of messages that may be sent by one processor on receipt of the token
+        max_messages:   20
+
+        # Stagger sending the node join messages by 1..send_join ms
+        send_join: 45
+
+        # Limit generated nodeids to 31-bits (positive signed integers)
+        clear_node_high_bit: yes
+
+        # Disable encryption
+        secauth:        off
+
+        # How many threads to use for encryption/decryption
+        threads:           0
+
+        # Optionally assign a fixed node id (integer)
+        # nodeid:         1234
+
+        interface {
+                ringnumber: 0
+
+                # The following values need to be set based on your environment
+                bindnetaddr: {{ bindnetaddress }}
+                mcastaddr: {{ mcast_addr }}
+                mcastport: {{ mcast_port }}
+        }
+}
+quorum {
+        provider: corosync_votequorum
+        expected_votes: {{ number_nodes }}
+}
+
+logging {
+        to_logfile: yes
+        logfile: {{ logpath }}
+        to_syslog; yes
+        timestamp: on
+}
+
+amf {
+        mode: disabled
+}
+	

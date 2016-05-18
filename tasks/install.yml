@@ -1,0 +1,6 @@
+---
+ - name: install pacemaker
+   apt:
+     name: "{{ pkg }}"
+     state: lastest
+     update_cache: yes

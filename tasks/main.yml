@@ -1,0 +1,6 @@
+---
+# tasks file for pacemaker
+- include: install.yml
+- include: keygen.yml
+- include: configure.yml
+- include: service.yml

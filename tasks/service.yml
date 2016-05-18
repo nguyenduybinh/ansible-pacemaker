@@ -1,0 +1,9 @@
+---
+ - name: start corosync service
+   service:
+     name: "{{ coro_service }}"
+     state: started
+ - name: start pacemaker service
+   service: 
+     name: "{{ pcmk_service }}"
+     state: started

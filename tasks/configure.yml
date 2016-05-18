@@ -1,0 +1,19 @@
+---
+ - stat: path=/etc/corosync/authkey
+   register: au
+ - name: copy authkey to multi node
+   copy: src=/tmp/authkey dest=/etc/corosync/authkey mode=0400
+   when: au.stat.exists == false
+ - name: create corosync.conf if using udp
+   template: src=corosync.conf.j2 dest=/etc/corosync/corosync.conf mode=0644
+   when: transport_protocol is undefined
+ - name: create corosync.conf if using udpu
+   template: src=corosync.conf.udpu.j2 dest=/etc/corosync/corosync.conf mode=0644
+   when: (transport_protocol is defined and transport_protocol == "udpu")
+   notify:
+     - restart corosync service
+     - restart pacemaker service
+ - name: Allow pacemaker service
+   copy: src=pcmk dest=/etc/corosync/service.d/pcmk mode=0644
+ - name: Enable Corosync service
+   copy: src=corosync dest=/etc/default/corosync

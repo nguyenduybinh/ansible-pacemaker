@@ -1,0 +1,31 @@
+totem {
+version: 2
+  cluster_name: {{ cluster_name }}
+  transport: {{ transport_protocol }}
+  interface {
+    ringnumber: 0
+    bindnetaddr: {{ bindnetaddress }}
+    broadcast: yes
+    mcastport: {{ mcast_port }}
+  }
+}
+
+quorum {
+       provider: corosync_votequorum
+}
+nodelist {
+{% for host in node_info %}
+  {% for host_ip in host.ip %}
+  node {
+    ring0_addr: {{ host_ip }}
+  }
+  {% endfor %}
+{% endfor %}
+}
+{
+logging {
+  to_logfile: yes
+  logfile: {{ logpath }}
+  to_syslog: yes
+  timestamp: on
+}
